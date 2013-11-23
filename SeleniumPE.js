@@ -29,6 +29,8 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 	HoverAction = require('./lib/Jx/action/HoverAction'),
 	TypeAction = require('./lib/Jx/action/TypeAction');
 
+var Test = require('./lib/Tests/Test');
+
 
 var SPE = {
 	Driver: Driver,
@@ -63,7 +65,8 @@ var SPE = {
 		Javascript: ByJavascript,
 	},
 	JxUtils: JxUtils,
-	Users: Users
+	Users: Users,
+	Test: Test
 }
 
 exports.SPE = SPE;
