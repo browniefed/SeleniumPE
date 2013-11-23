@@ -1,11 +1,11 @@
 var Driver = require('./lib/Driver/Driver'),
 	AbstractPageElement = require('./lib/Elements/AbstractPageElement'),
-	AbstractPage = require('./Pages/AbstractPage'),
-	PageCallback = require('./Pages/PageCallback'),
-	PageElement = require('./Pages/PageElement'),
-	PageHelper = require('./Pages/PageHelper'),
-	ToggleableElement = require('./Pages/ToggleableElement'),
-	Page = require('./lib/Pages/Page'),
+	AbstractPage = require('./lib//Pages/AbstractPage'),
+	PageCallback = require('./lib//Pages/PageCallback'),
+	PageElement = require('./lib//Pages/PageElement'),
+	PageHelper = require('./lib//Pages/PageHelper'),
+	ToggleableElement = require('./lib//Pages/ToggleableElement'),
+	Page = require('./lib//lib/Pages/Page'),
 	Users = require('./lib/Users/User');
 
 var JxActions = require('./lib/Jx/JxActions'),
@@ -31,7 +31,38 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 
 
 var SPE = {
-	Page: Page,
+	Driver: Driver,
+	Elements: {
+		AbstractPageElement: AbstractPageElement
+	},
+	Pages: {
+		AbstractPage: AbstractPage,
+		Page: Page,
+		PageCallback: PageCallback,
+		PageElement: PageElement,
+		PageHelper: PageHelper,
+		ToggleableElement: ToggleableElement,
+	},
+	JxActions: JxActions,
+	JxAlert: JxAlert,
+	JxInspector: JxInspector,
+	JxNavigate: JxNavigate,
+	JxTimeouts: JxTimeouts,
+	JxWaitUntil: JxWaitUntil,
+	JxAction: {
+		_: JxAction,
+		AbstractJxAction: AbstractJxAction,
+		Click: ClickAction,
+		DragAndDrop: DragAndDropAction,
+		Focus: FocusAction,
+		Hover: HoverAction,
+		Type: TypeAction
+	},
+	By: {
+		_: By,
+		Javascript: ByJavascript,
+	},
+	JxUtils: JxUtils
 	Users: Users
 }
 
