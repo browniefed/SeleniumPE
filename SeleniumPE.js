@@ -6,10 +6,10 @@ var Driver = require('./lib/Driver/Driver'),
 	PageHelper = require('./lib/Pages/PageHelper'),
 	ToggleableElement = require('./lib/Pages/ToggleableElement'),
 	Page = require('./lib/Pages/Page'),
-	Users = require('./lib/Users/User');
+	Users = require('./lib/Users/Users');
 
 var JxActions = require('./lib/Jx/JxActions'),
-	JxAlert = require('./lib/Jx/JxAllert'),
+	JxAlert = require('./lib/Jx/JxAlert'),
 	JxInspector = require('./lib/Jx/JxInspector'),
 	JxNavigate = require('./lib/Jx/JxNavigate'),
 	JxTimeouts = require('./lib/Jx/JxTimeouts'),
