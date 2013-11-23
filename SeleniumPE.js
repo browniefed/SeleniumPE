@@ -62,7 +62,7 @@ var SPE = {
 		_: By,
 		Javascript: ByJavascript,
 	},
-	JxUtils: JxUtils
+	JxUtils: JxUtils,
 	Users: Users
 }
 
