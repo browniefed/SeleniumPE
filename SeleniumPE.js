@@ -1,11 +1,11 @@
 var Driver = require('./lib/Driver/Driver'),
 	AbstractPageElement = require('./lib/Elements/AbstractPageElement'),
-	AbstractPage = require('./lib//Pages/AbstractPage'),
-	PageCallback = require('./lib//Pages/PageCallback'),
-	PageElement = require('./lib//Pages/PageElement'),
-	PageHelper = require('./lib//Pages/PageHelper'),
-	ToggleableElement = require('./lib//Pages/ToggleableElement'),
-	Page = require('./lib//lib/Pages/Page'),
+	AbstractPage = require('./lib/Pages/AbstractPage'),
+	PageCallback = require('./lib/Pages/PageCallback'),
+	PageElement = require('./lib/Pages/PageElement'),
+	PageHelper = require('./lib/Pages/PageHelper'),
+	ToggleableElement = require('./lib/Pages/ToggleableElement'),
+	Page = require('./lib/Pages/Page'),
 	Users = require('./lib/Users/User');
 
 var JxActions = require('./lib/Jx/JxActions'),
