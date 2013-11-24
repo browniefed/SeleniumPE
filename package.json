@@ -8,7 +8,8 @@
     "selenium-webdriver": "~2.37.0",
     "q": "~0.9.7",
     "lodash": "~2.3.0",
-    "fibers": "~1.0.1"
+    "fibers": "~1.0.1",
+    "sync": "~0.2.2"
   },
   "devDependencies": {},
   "scripts": {
