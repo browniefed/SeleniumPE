@@ -7,7 +7,8 @@
     "chai": "~1.8.1",
     "selenium-webdriver": "~2.37.0",
     "q": "~0.9.7",
-    "lodash": "~2.3.0"
+    "lodash": "~2.3.0",
+    "fibers": "~1.0.1"
   },
   "devDependencies": {},
   "scripts": {
@@ -25,8 +26,11 @@
     "test"
   ],
   "author": "Jason Brown",
-  "license": "WTFPL",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/browniefed/NodeSPE/issues"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
