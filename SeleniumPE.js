@@ -68,4 +68,4 @@ var SPE = {
 	test: test
 }
 
-exports.SPE = SPE;
+exports = module.exports = SPE;

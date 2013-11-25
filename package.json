@@ -1,5 +1,5 @@
 {
-  "name": "browniefed",
+  "name": "SeleniumPE",
   "version": "0.0.1",
   "description": "Selenium Page Element style written in Node",
   "main": "SeleniumPE.js",
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/browniefed/NodeSPE.git"
+    "url": "https://github.com/browniefed/SeleniumPE.git"
   },
   "keywords": [
     "node",

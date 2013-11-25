@@ -27,3 +27,52 @@ Clicking will check that a link with text Logout is scoped within the UserDropDo
 
 Each PageElement that gets returned is continually scoped down with in the element.
 Meaning when find(By.xPath()) it will only be searching within the scope of it's root.
+
+##How To Write a Test
+
+First off install mocha globally.
+
+```
+npm install -g mocha
+npm install SeleniumPE
+```
+
+Writing a test as `test.js`
+```javascript
+var SPE = require('SeleniumPE'),
+	test = SPE.test,
+	By = SPE.Driver.getDriver().By;
+
+test.describe('Google Search', function() {
+  
+  var Page;
+
+  test.beforeEach(function() {
+  	Page = new SPE.Pages.Page('http://www.google.com');
+  	SPE.Pages.PageHelper.goToPage(Page);
+  });
+
+  test.it('should append query to title', function() {
+    var element = new SPE.Elements.AbstractPageElement(By.id('viewport'));
+    var q = element.findField('q');
+    SPE.JxAction.Type.type(q, 'Test');
+  });
+
+  test.afterEach(function() { 
+    SPE.Pages.PageHelper.closePage();
+  });
+});
+```
+
+This can be run with
+
+```
+mocha test.js
+```
+
+This isn't a great test because it is creating a page rather than utilizing a predefined set of pages that you've built.
+Same goes for the AbstractPageElement. As described above you should build out reusable AbstractPageElements to reuse across tests.
+
+All actions whether they be typing, clicking, hovering, dragging/dropping, etc should be done through JxActions.
+This gives you the ability to control all actions across your tests if something arises and you need to make changes that effect your tests.
+ex. On click events we set up a before hook to check that nothing (ajaxy, or other) is loading before moving on with the app.
