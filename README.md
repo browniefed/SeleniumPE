@@ -1,4 +1,4 @@
-#NodeSPE
+#SeleniumPE
 
 Node Selenium Page Element.
 This style of writing Selenium tests is based on @seanadkinson and his coined "Page Element" style.
