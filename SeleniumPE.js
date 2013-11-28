@@ -46,7 +46,8 @@ var test = require('selenium-webdriver/testing');
 var SPE = {
 	Driver: Driver,
 	Elements: {
-		AbstractPageElement: AbstractPageElement
+		AbstractPageElement: AbstractPageElement,
+		WebElement: WebElement
 	},
 	Pages: {
 		AbstractPage: AbstractPage,
