@@ -1,5 +1,6 @@
 var Driver = require('./lib/Driver/Driver'),
 	AbstractPageElement = require('./lib/Elements/AbstractPageElement'),
+	WebElement = require('./lib/Elements/WebElement'),
 	AbstractPage = require('./lib/Pages/AbstractPage'),
 	PageCallback = require('./lib/Pages/PageCallback'),
 	PageElement = require('./lib/Pages/PageElement'),
