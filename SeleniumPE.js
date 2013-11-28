@@ -29,7 +29,27 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 	HoverAction = require('./lib/Jx/action/HoverAction'),
 	TypeAction = require('./lib/Jx/action/TypeAction');
 
+var Sync = require('sync');
+
+function wrapSync(fn) {
+	return function() {
+		Sync(fn);
+	}
+}
+
 var test = require('selenium-webdriver/testing');
+	test.describe = wrapSync(test.describe);
+	test.xdescribe = wrapSync(test.xdescribe);
+	test.describe.skip = wrapSync(test.describe.sync);
+	test.after = wrapSync(test.after);
+	test.afterEach = wrapSync(test.afterEach);
+	test.before = wrapSync(test.before);
+	test.beforeEach = wrapSync(test.beforeEach);
+	test.it = wrapSync(test.it);
+	test.it.only = wrapSync(test.it.only);
+	test.it.skip = wrapSync(test.it.skip);
+	test.ignore = wrapSync(test.ignore);
+
 
 var SPE = {
 	Driver: Driver,
