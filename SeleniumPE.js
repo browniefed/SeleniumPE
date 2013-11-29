@@ -33,15 +33,7 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 
 var Sync = require('sync');
 
-function wrapSync(fn) {
-	return function() {
-		Sync(fn.apply(null, arguments));
-	}
-}
-
 var test = require('selenium-webdriver/testing');
-	test.describe = wrapSync(test.describe);
-
 
 var SPE = {
 	Driver: Driver,
