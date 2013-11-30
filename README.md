@@ -53,9 +53,11 @@ test.describe('Google Search', function() {
   });
 
   test.it('should append query to title', function() {
-    var element = new SPE.Elements.AbstractPageElement(By.id('viewport'));
-    var q = element.findField('q');
-    SPE.JxAction.Type.type(q, 'Test');
+    Sync(function() {
+      var element = new SPE.Elements.AbstractPageElement(By.id('viewport'));
+      var q = element.findField('q');
+      SPE.JxAction.Type.type(q, 'Test');
+    })
   });
 
   test.afterEach(function() { 
@@ -63,6 +65,11 @@ test.describe('Google Search', function() {
   });
 });
 ```
+Because selenium complies with node.js and it's async, event loop goodness we must wrap each test in it's own Fiber.
+I've chosen sync because it made things easy, and allowed me to easily turn almost all promise returning async functions into synchronous functions.
+If using methods I've written this allows you to write your tests without getting into callback hell. I understand that node.js is async but I do not see the point in it for testing, especially with Selenium where you want one action to ocurr after another. Generally speaking that is.
+
+If you do not like it then by all means use your own stuff.
 
 This can be run with
 
