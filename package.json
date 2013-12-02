@@ -4,17 +4,14 @@
   "description": "Selenium Page Element style written in Node",
   "main": "SeleniumPE.js",
   "dependencies": {
-    "chai": "~1.8.1",
     "selenium-webdriver": "~2.37.0",
-    "q": "~0.9.7",
     "lodash": "~2.3.0",
-    "fibers": "~1.0.1",
     "sync": "~0.2.2",
     "klass": "~1.3.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tests"
   },
   "repository": {
     "type": "git",
@@ -28,7 +25,7 @@
     "test"
   ],
   "author": "Jason Brown",
-  "license": "BSD-2-Clause",
+  "license": "WTFPL",
   "bugs": {
     "url": "https://github.com/browniefed/NodeSPE/issues"
   },
