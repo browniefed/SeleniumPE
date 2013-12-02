@@ -41,6 +41,10 @@ Writing a test as `test.js`
 ```javascript
 var SPE = require('SeleniumPE'),
 	test = SPE.test,
+  Page = SPE.Pages.Page,
+  PageHelper = SPE.Pages.PageHelper,
+  AbstractPageElement = SPE.Elements.AbstractPageElement,
+  JxActions = SPE.JxActions,
 	By = SPE.Driver.getDriver().By;
 
 test.describe('Google Search', function() {
@@ -48,20 +52,20 @@ test.describe('Google Search', function() {
   var Page;
 
   test.beforeEach(function() {
-  	Page = new SPE.Pages.Page('http://www.google.com');
-  	SPE.Pages.PageHelper.goToPage(Page);
+  	Page = new Page('http://www.google.com');
+  	PageHelper.goToPage(Page);
   });
 
   test.it('should append query to title', function() {
     Sync(function() {
-      var element = new SPE.Elements.AbstractPageElement(By.id('viewport'));
+      var element = new AbstractPageElement(By.id('viewport'));
       var q = element.findField('q');
-      SPE.JxAction.Type.type(q, 'Test');
+      JxActions.type(q, 'Test');
     })
   });
 
   test.afterEach(function() { 
-    SPE.Pages.PageHelper.closePage();
+    PageHelper.closePage();
   });
 });
 ```
@@ -83,3 +87,102 @@ Same goes for the AbstractPageElement. As described above you should build out r
 All actions whether they be typing, clicking, hovering, dragging/dropping, etc should be done through JxActions.
 This gives you the ability to control all actions across your tests if something arises and you need to make changes that effect your tests.
 ex. On click events we set up a before hook to check that nothing (ajaxy, or other) is loading before moving on with the app.
+
+
+Here is a quick example of how 
+
+`GoogleSearchTest.js`
+```javascript
+var assert = require('chai').assert,
+  SPE = require('SeleniumPE'),
+  test = SPE.test,
+  By = SPE.Driver().getDriver().By,
+  PageHelper = SPE.Pages.PageHelper,
+  GooglePage = require('./Pages/GooglePage'),
+  JxInspector = SPE.JxInspector,
+  SEWebElement = SPE.Elements.WebElement,
+  Sync = require('sync');
+
+
+  test.describe('Google Search', function() {
+    var Page;
+
+    test.before(function() {
+      Page = new GooglePage();
+      PageHelper.goToPage(Page);
+    });
+
+    test.it('should append query to title', function() {
+      Sync(function() {
+        var element = Page.getSearchControls();
+        element.typeSearchParam('This is a search param');
+        //DO AN ASSERTION WITH CHAI
+      })
+    });
+
+    test.it('should so search results', function() {
+      Sync(function() {
+        var element = Page.getSearchControls();
+        element.typeSearchParam('Selenium WebDriver');
+        var searches = Page.getSearchResults();
+      });
+    });
+
+    test.after(function() { 
+      SPE.Pages.PageHelper.closePage();
+    });
+  });
+
+
+
+```
+
+
+`Pages/GooglePage.js`
+```javascript
+var SPE = require('SeleniumPE'),
+  Page = SPE.Pages.Page,
+  PageHelper = SPE.Pages.PageHelper,
+  SearchControls = require('../Elements/SearchControls');
+
+var GooglePage = Page.extend(function() {
+
+}).methods({
+  url: 'http://www.google.com',
+  getSearchControls: function() {
+    return SearchControls.findOnPage();
+  },
+  setUrl: function(url) {
+    this.url = url;
+  }
+});
+
+exports = module.exports = GooglePage;
+```
+All other methods are implemented on Page parent
+
+`Elements/SearchControl.js`
+```javascript
+
+var SPE = require('SeleniumPE'),
+  AbstractPageElement = SPE.Elements.AbstractPageElement,
+  By = SPE.By._,
+  JxActions = SPE.JxActions;
+
+var SearchControls = AbstractPageElement.extend(function() {
+  this.initalized = true;
+}).methods({
+
+  typeSearchParam: function(text) {
+    var searchField = this.findDescendant(By.name('q'));
+    JxActions.type(searchField, text);
+  }
+}).statics({
+  findOnPage: function() {
+    return new SearchControls(By.tagName('form'));
+  }
+});
+
+exports = module.exports = SearchControls;
+```
+
