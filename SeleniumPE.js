@@ -30,11 +30,23 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 	HoverAction = require('./lib/Jx/action/HoverAction'),
 	TypeAction = require('./lib/Jx/action/TypeAction');
 
-
 var Sync = require('sync');
 
-var test = require('selenium-webdriver/testing');
 
+function wrapSync(fn) {
+	return function(desc, t) {
+		var f = fn;
+		f(desc, function() {
+			Sync(function() {
+				t();
+			});
+		});
+	}
+}
+
+
+var test = require('selenium-webdriver/testing');
+test.it = wrapSync(test.it);
 var SPE = {
 	Driver: Driver,
 	Elements: {
