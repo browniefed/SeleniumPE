@@ -37,49 +37,7 @@ npm install -g mocha
 npm install SeleniumPE
 ```
 
-Writing a test as `test.js`
-```javascript
-var SPE = require('SeleniumPE'),
-	test = SPE.test,
-  Page = SPE.Pages.Page,
-  PageHelper = SPE.Pages.PageHelper,
-  AbstractPageElement = SPE.Elements.AbstractPageElement,
-  JxActions = SPE.JxActions,
-	By = SPE.Driver.getDriver().By;
 
-test.describe('Google Search', function() {
-  
-  var Page;
-
-  test.beforeEach(function() {
-  	Page = new Page('http://www.google.com');
-  	PageHelper.goToPage(Page);
-  });
-
-  test.it('should append query to title', function() {
-    Sync(function() {
-      var element = new AbstractPageElement(By.id('viewport'));
-      var q = element.findField('q');
-      JxActions.type(q, 'Test');
-    })
-  });
-
-  test.afterEach(function() { 
-    PageHelper.closePage();
-  });
-});
-```
-Because selenium complies with node.js and it's async, event loop goodness we must wrap each test in it's own Fiber.
-I've chosen sync because it made things easy, and allowed me to easily turn almost all promise returning async functions into synchronous functions.
-If using methods I've written this allows you to write your tests without getting into callback hell. I understand that node.js is async but I do not see the point in it for testing, especially with Selenium where you want one action to ocurr after another. Generally speaking that is.
-
-If you do not like it then by all means use your own stuff.
-
-This can be run with
-
-```
-mocha test.js
-```
 
 This isn't a great test because it is creating a page rather than utilizing a predefined set of pages that you've built.
 Same goes for the AbstractPageElement. As described above you should build out reusable AbstractPageElements to reuse across tests.
@@ -91,6 +49,12 @@ ex. On click events we set up a before hook to check that nothing (ajaxy, or oth
 
 Here is a quick example of how 
 
+This can be run with
+
+```
+mocha GoogleSearchTest.js
+```
+
 `GoogleSearchTest.js`
 ```javascript
 var assert = require('chai').assert,
@@ -101,7 +65,6 @@ var assert = require('chai').assert,
   GooglePage = require('./Pages/GooglePage'),
   JxInspector = SPE.JxInspector,
   SEWebElement = SPE.Elements.WebElement,
-  Sync = require('sync');
 
 
   test.describe('Google Search', function() {
@@ -113,27 +76,23 @@ var assert = require('chai').assert,
     });
 
     test.it('should append query to title', function() {
-      Sync(function() {
         var element = Page.getSearchControls();
         element.typeSearchParam('This is a search param');
         //DO AN ASSERTION WITH CHAI
-      })
     });
 
     test.it('should so search results', function() {
-      Sync(function() {
         var element = Page.getSearchControls();
         element.typeSearchParam('Selenium WebDriver');
         var searches = Page.getSearchResults();
-      });
+		var firstResult = searches.getResultTextByIndex(0);
+		//DO AN ASSERTION THAT FIRST RESULT TEXT EQUALS SOMETHINS
     });
 
     test.after(function() { 
       SPE.Pages.PageHelper.closePage();
     });
   });
-
-
 
 ```
 
@@ -143,7 +102,8 @@ var assert = require('chai').assert,
 var SPE = require('SeleniumPE'),
   Page = SPE.Pages.Page,
   PageHelper = SPE.Pages.PageHelper,
-  SearchControls = require('../Elements/SearchControls');
+  SearchControls = require('../Elements/SearchControls'),
+  SearchResults = require('../Elements/SearchResults');
 
 var GooglePage = Page.extend(function() {
 
@@ -151,6 +111,11 @@ var GooglePage = Page.extend(function() {
   url: 'http://www.google.com',
   getSearchControls: function() {
     return SearchControls.findOnPage();
+  },
+  getSearchResults: function() {
+  //Utilizes JxWaitUntil to wait for the results to appear instead of just sleeping an amount of seconds
+  //Thus smart waiting
+	return SearchResults.findOnPage();
   },
   setUrl: function(url) {
     this.url = url;
@@ -165,14 +130,13 @@ All other methods are implemented on Page parent
 ```javascript
 
 var SPE = require('SeleniumPE'),
-  AbstractPageElement = SPE.Elements.AbstractPageElement,
   By = SPE.By._,
-  JxActions = SPE.JxActions;
+  JxActions = SPE.JxActions,
+  klass = require('klass');
 
-var SearchControls = AbstractPageElement.extend(function() {
-  this.initalized = true;
+var SearchControls = klass(function() {
+
 }).methods({
-
   typeSearchParam: function(text) {
     var searchField = this.findDescendant(By.name('q'));
     JxActions.type(searchField, text);
