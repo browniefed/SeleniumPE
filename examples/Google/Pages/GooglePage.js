@@ -11,13 +11,11 @@ var GooglePage = Page.extend(function() {
   getSearchControls: function() {
     return SearchControls.findOnPage();
   },
-  getSearchResults: function() {
-  //Utilizes JxWaitUntil to wait for the results to appear instead of just sleeping an amount of seconds
-  //Thus smart waiting
-    return SearchResults.findOnPage();
-  },
   setUrl: function(url) {
     this.url = url;
+  },
+  getSearchResults: function() {
+    return SearchResults.findOnPage();
   }
 });
 

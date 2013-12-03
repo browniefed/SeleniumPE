@@ -1,7 +1,8 @@
 var SPE = require('SeleniumPE'),
 	AbstractPageElement = SPE.Elements.AbstractPageElement,
 	By = SPE.By._,
-	JxActions = SPE.JxActions;
+	JxActions = SPE.JxActions,
+	JxWaitUntil = SPE.JxWaitUntil;
 
 var SearchResults = AbstractPageElement.extend(function() {
 	this.initalized = true;
@@ -14,8 +15,7 @@ var SearchResults = AbstractPageElement.extend(function() {
 	}
 }).statics({
 	findOnPage: function() {
-		//SHOULD HAVE A TIMEOUT TO WAIT FOR THE ELEMENTS TO APPEAR
-		return new SearchResults(By.id('center_col'));
+		return new SearchResults(JxWaitUntil.elementExists(By.id('center_col')));
 	}
 });
 

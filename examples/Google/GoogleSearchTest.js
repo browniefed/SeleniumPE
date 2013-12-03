@@ -6,31 +6,35 @@ var assert = require('chai').assert,
   GooglePage = require('./Pages/GooglePage'),
   JxInspector = SPE.JxInspector,
   SEWebElement = SPE.Elements.WebElement,
+  Sync = require('sync');
 
 
   test.describe('Google Search', function() {
     var Page;
 
-    test.before(function() {
+    test.beforeEach(function() {
       Page = new GooglePage();
       PageHelper.goToPage(Page);
     });
 
-    test.it('should append query to title', function() {
-        var element = Page.getSearchControls();
-        element.typeSearchParam('This is a search param');
-        //DO AN ASSERTION WITH CHAI
-    });
+    // test.it('should append query to title', function() {
+    //   Sync(function() {
+    //     var element = Page.getSearchControls();
+    //     element.typeSearchParam('This is a search param');
+    //     //DO AN ASSERTION WITH CHAI
+    //   })
+    // });
 
     test.it('should so search results', function() {
+      Sync(function() {
         var element = Page.getSearchControls();
         element.typeSearchParam('Selenium WebDriver');
-        var searches = Page.getSearchResults();
-		var firstResult = searches.getResultTextByIndex(0);
-		//DO AN ASSERTION THAT FIRST RESULT TEXT EQUALS SOMETHINS
+        // var searches = Page.getSearchResults();
+        // console.log(searches.getResultNameByIndex(0));
+      });
     });
 
-    test.after(function() { 
-      SPE.Pages.PageHelper.closePage();
+    test.afterEach(function() { 
+      PageHelper.closePage();
     });
   });

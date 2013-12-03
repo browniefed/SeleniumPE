@@ -1,6 +1,9 @@
 var SPE = require('SeleniumPE'),
+  AbstractPageElement = SPE.Elements.AbstractPageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
+  Sync = require('sync'),
+  JxWaitUntil = SPE.JxWaitUntil,
   klass = require('klass');
 
 var SearchControls = klass(function() {
@@ -12,7 +15,7 @@ var SearchControls = klass(function() {
   }
 }).statics({
   findOnPage: function() {
-    return new SearchControls(By.tagName('form'));
+    return new SearchControls(JxWaitUntil.elementExists(By.tagName('form')));
   }
 });
 
