@@ -28,6 +28,8 @@ var assert = require('chai').assert,
     test.it('should so search results', function() {
       var element = Page.getSearchControls();
       element.typeSearchParam('Selenium WebDriver');
+      var value = element.getAttribute('value');
+      assert(value).is.equal.to('Selenium WebDriver');
       // var searches = Page.getSearchResults();
       // console.log(searches.getResultNameByIndex(0));
     });
