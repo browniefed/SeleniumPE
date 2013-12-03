@@ -1,17 +1,17 @@
 var SPE = require('SeleniumPE'),
-	AbstractPageElement = SPE.Elements.AbstractPageElement,
+	PageElement = SPE.Pages.PageElement,
 	By = SPE.By._,
 	JxActions = SPE.JxActions,
-	JxWaitUntil = SPE.JxWaitUntil;
+	JxWaitUntil = SPE.JxWaitUntil,
+	JxInspector = SPE.JxInspector;
 
-var SearchResults = AbstractPageElement.extend(function() {
-	this.initalized = true;
+var SearchResults = PageElement.extend(function() {
+
 }).methods({
 
 	getResultNameByIndex: function(index) {
 		var results = this.findDescendants(By.css('ol > li'));
 		return JxInspector.find(results[index], By.css('h3 a em')).getText();
-
 	}
 }).statics({
 	findOnPage: function() {

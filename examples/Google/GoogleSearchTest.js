@@ -26,12 +26,10 @@ var assert = require('chai').assert,
     // });
 
     test.it('should so search results', function() {
-      Sync(function() {
-        var element = Page.getSearchControls();
-        element.typeSearchParam('Selenium WebDriver');
-        // var searches = Page.getSearchResults();
-        // console.log(searches.getResultNameByIndex(0));
-      });
+      var element = Page.getSearchControls();
+      element.typeSearchParam('Selenium WebDriver');
+      // var searches = Page.getSearchResults();
+      // console.log(searches.getResultNameByIndex(0));
     });
 
     test.afterEach(function() { 
