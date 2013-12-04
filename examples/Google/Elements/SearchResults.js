@@ -1,5 +1,6 @@
 var SPE = require('SeleniumPE'),
 	PageElement = SPE.Pages.PageElement,
+	WebElement = SPE.Elements.WebElement,
 	By = SPE.By._,
 	JxActions = SPE.JxActions,
 	JxWaitUntil = SPE.JxWaitUntil,
@@ -8,14 +9,12 @@ var SPE = require('SeleniumPE'),
 var SearchResults = PageElement.extend(function() {
 
 }).methods({
-
-	getResultNameByIndex: function(index) {
-		var results = this.findDescendants(By.css('ol > li'));
-		return JxInspector.find(results[index], By.css('h3 a em')).getText();
+	getResultStats: function() {
+		return new WebElement(this.root).getInnerHtml();
 	}
 }).statics({
 	findOnPage: function() {
-		return new SearchResults(JxWaitUntil.elementExists(By.id('center_col')));
+		return new SearchResults(JxWaitUntil.elementExists(By.id('resultStats')));
 	}
 });
 

@@ -36,9 +36,18 @@ var Sync = require('sync');
 function wrapSync(fn) {
 	return function(desc, t) {
 		var f = fn;
-		f(desc, function() {
+		f(desc, function(done) {
 			Sync(function() {
-				t();
+				return function(cb) {
+					try {
+						t.sync();
+						cb(null, true);
+					} catch(e) {
+						cb(e, false);
+					}
+				}.sync(null);
+			}, function(e) {
+				throw e;
 			});
 		});
 	}

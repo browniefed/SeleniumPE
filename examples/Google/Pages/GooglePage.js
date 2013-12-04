@@ -13,9 +13,6 @@ var GooglePage = Page.extend(function() {
   },
   setUrl: function(url) {
     this.url = url;
-  },
-  getSearchResults: function() {
-    return SearchResults.findOnPage();
   }
 });
 

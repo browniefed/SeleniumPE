@@ -1,17 +1,19 @@
 var SPE = require('SeleniumPE'),
-  AbstractPageElement = SPE.Elements.AbstractPageElement,
+  PageElement = SPE.Pages.PageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
   Sync = require('sync'),
   JxWaitUntil = SPE.JxWaitUntil,
-  klass = require('klass');
+  klass = require('klass'),
+  SearchResults = require('./SearchResults');
 
-var SearchControls = klass(function() {
+var SearchControls = PageElement.extend(function() {
 
 }).methods({
   typeSearchParam: function(text) {
-    var searchField = this.findDescendant(By.name('q'));
-    JxActions.type(searchField, text);
+     var searchField = JxWaitUntil.elementExists(By.name('q'));
+     JxActions.type(searchField, text);
+     return SearchResults.findOnPage();
   }
 }).statics({
   findOnPage: function() {
