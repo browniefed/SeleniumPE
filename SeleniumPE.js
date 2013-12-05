@@ -40,7 +40,7 @@ function wrapSync(fn) {
 			Sync(function() {
 				return function(cb) {
 					try {
-						t.sync();
+						t();
 						cb(null, true);
 					} catch(e) {
 						cb(e, false);
