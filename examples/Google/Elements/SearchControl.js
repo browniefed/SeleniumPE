@@ -11,8 +11,10 @@ var SearchControls = PageElement.extend(function() {
 
 }).methods({
   typeSearchParam: function(text) {
-     var searchField = JxWaitUntil.elementExists(By.name('q'));
+     var searchField = JxWaitUntil.elementExists(this.root, By.name('q'));
      JxActions.type(searchField, text);
+     var button = JxWaitUntil.elementExists(this.root, By.xpath(".//button[@aria-label='Google Search' and @name='btnG']"));
+     button.click();
      return SearchResults.findOnPage();
   }
 }).statics({
