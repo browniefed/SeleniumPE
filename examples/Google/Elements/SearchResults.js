@@ -9,12 +9,14 @@ var SPE = require('SeleniumPE'),
 var SearchResults = PageElement.extend(function() {
 
 }).methods({
-	getResultStats: function() {
-		return new WebElement(this.root).getInnerHtml();
+	getResultStatsByIndex: function(index) {
+		var el = new WebElement(this.root),
+		 	eles = JxInspector.findDescendants(this.root, By.css('h3 em'));
+		return eles[index].getInnerHtml();
 	}
 }).statics({
 	findOnPage: function() {
-		return new SearchResults(JxWaitUntil.elementExists(By.id('resultStats')));
+		return new SearchResults(JxWaitUntil.elementExists(By.id('ires')));
 	}
 });
 

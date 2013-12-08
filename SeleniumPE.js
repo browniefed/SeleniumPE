@@ -32,11 +32,10 @@ var JxAction = require('./lib/Jx/action/JxAction'),
 
 var Sync = require('sync');
 
-
 function wrapSync(fn) {
 	return function(desc, t) {
 		var f = fn;
-		f(desc, function(done) {
+		f(desc, function() {
 			Sync(function() {
 				return function(cb) {
 					try {
@@ -46,16 +45,21 @@ function wrapSync(fn) {
 						cb(e, false);
 					}
 				}.sync(null);
-			}, function(e) {
-				throw e;
+			}, function(e, result) {
+				if (e) {
+					throw e;
+				}
 			});
 		});
+
 	}
 }
 
 
 var test = require('selenium-webdriver/testing');
 test.it = wrapSync(test.it);
+
+
 var SPE = {
 	Driver: Driver,
 	Elements: {

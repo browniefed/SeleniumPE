@@ -5,31 +5,22 @@ var expect = require('chai').expect,
     GooglePage = require('./Pages/GooglePage');
 
   test.describe('Google Search', function() {
-    var Page;
+    var Page = new GooglePage();
 
     test.beforeEach(function(done) {
-      Page = new GooglePage();
-      PageHelper.goToPage(Page);
+        PageHelper.goToPage(Page);
     });
-
-    // test.it('should append query to title', function() {
-    //   Sync(function() {
-    //     var element = Page.getSearchControls();
-    //     element.typeSearchParam('This is a search param');
-    //     //DO AN ASSERTION WITH CHAI
-    //   })
-    // });
 
     test.it('should so search results', function(done) {
 
         var element = Page.getSearchControls();
-            searches = element.typeSearchParam('Selenium WebDriver'),
-            results = searches.getResultStats();
-
+            searches = element.typeSearchParam('Selenium WebDriver');
+            results = searches.getResultStatsByIndex(5);
             expect(results).to.be.a('string');
     });
 
-    test.afterEach(function() { 
+    test.after(function() { 
       PageHelper.closePage();
     });
   });
+
