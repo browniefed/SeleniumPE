@@ -57,42 +57,41 @@ mocha GoogleSearchTest.js
 
 `GoogleSearchTest.js`
 ```javascript
-var assert = require('chai').assert,
-  SPE = require('SeleniumPE'),
-  test = SPE.test,
-  By = SPE.Driver().getDriver().By,
-  PageHelper = SPE.Pages.PageHelper,
-  GooglePage = require('./Pages/GooglePage'),
-  JxInspector = SPE.JxInspector,
-  SEWebElement = SPE.Elements.WebElement,
+var expect = require('chai').expect,
+    SPE = require('SeleniumPE'),
+    test = SPE.test,
+    PageHelper = SPE.Pages.PageHelper,
+    GooglePage = require('./Pages/GooglePage'),
+    Sync = require('sync');
 
 
   test.describe('Google Search', function() {
-    var Page;
+    var Page = new GooglePage();
 
-    test.before(function() {
-      Page = new GooglePage();
+    test.beforeEach(function(done) {
       PageHelper.goToPage(Page);
     });
 
-    test.it('should append query to title', function() {
+    test.it('should so search results', function(done) {
         var element = Page.getSearchControls();
-        element.typeSearchParam('This is a search param');
-        //DO AN ASSERTION WITH CHAI
+            searches = element.typeSearchParam('Selenium WebDriver');
+            results = searches.getResultStatsByIndex(5);
+            expect(results).to.be.a('string');
     });
 
-    test.it('should so search results', function() {
+    test.it('should so search results', function(done) {
         var element = Page.getSearchControls();
-        element.typeSearchParam('Selenium WebDriver');
-        var searches = Page.getSearchResults();
-		var firstResult = searches.getResultTextByIndex(0);
-		//DO AN ASSERTION THAT FIRST RESULT TEXT EQUALS SOMETHINS
+            searches = element.typeSearchParam('Selenium WebDriver');
+            results = searches.getResultStatsByIndex(0);
+            expect(results).to.be.a('string');
     });
 
     test.after(function() { 
-      SPE.Pages.PageHelper.closePage();
+        PageHelper.closePage();
     });
   });
+
+
 
 ```
 
@@ -102,23 +101,14 @@ var assert = require('chai').assert,
 var SPE = require('SeleniumPE'),
   Page = SPE.Pages.Page,
   PageHelper = SPE.Pages.PageHelper,
-  SearchControls = require('../Elements/SearchControls'),
-  SearchResults = require('../Elements/SearchResults');
-
+  SearchControls = require('../Elements/SearchControls');
+  
 var GooglePage = Page.extend(function() {
 
 }).methods({
   url: 'http://www.google.com',
   getSearchControls: function() {
     return SearchControls.findOnPage();
-  },
-  getSearchResults: function() {
-  //Utilizes JxWaitUntil to wait for the results to appear instead of just sleeping an amount of seconds
-  //Thus smart waiting
-	return SearchResults.findOnPage();
-  },
-  setUrl: function(url) {
-    this.url = url;
   }
 });
 
@@ -128,25 +118,56 @@ All other methods are implemented on Page parent
 
 `Elements/SearchControl.js`
 ```javascript
-
 var SPE = require('SeleniumPE'),
+  driver = SPE.Driver().getDriver(),
+  PageElement = SPE.Pages.PageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
-  klass = require('klass');
+  JxWaitUntil = SPE.JxWaitUntil,
+  SearchResults = require('./SearchResults');
 
-var SearchControls = klass(function() {
+var SearchControls = PageElement.extend(function() {
 
 }).methods({
   typeSearchParam: function(text) {
-    var searchField = this.findDescendant(By.name('q'));
-    JxActions.type(searchField, text);
+     var searchField = JxWaitUntil.elementExists(this.root, By.name('q'));
+     JxActions.type(searchField, text);
+     searchField.sendKeys(driver.Key.ENTER);
+     return SearchResults.findOnPage();
   }
 }).statics({
   findOnPage: function() {
-    return new SearchControls(By.tagName('form'));
+    return new SearchControls(JxWaitUntil.elementExists(By.tagName('form')));
   }
 });
 
 exports = module.exports = SearchControls;
+```
+
+`Elements/SearchResults.js`
+```javascript
+var SPE = require('SeleniumPE'),
+  PageElement = SPE.Pages.PageElement,
+  WebElement = SPE.Elements.WebElement,
+  By = SPE.By._,
+  JxActions = SPE.JxActions,
+  JxWaitUntil = SPE.JxWaitUntil,
+  JxInspector = SPE.JxInspector;
+
+var SearchResults = PageElement.extend(function() {
+
+}).methods({
+  getResultStatsByIndex: function(index) {
+    var el = new WebElement(this.root),
+      eles = JxInspector.findDescendants(this.root, By.css('h3 em'));
+    return eles[index].getInnerHtml();
+  }
+}).statics({
+  findOnPage: function() {
+    return new SearchResults(JxWaitUntil.elementExists(By.id('ires')));
+  }
+});
+
+exports = module.exports = SearchResults;
 ```
 

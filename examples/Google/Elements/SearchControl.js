@@ -1,4 +1,5 @@
 var SPE = require('SeleniumPE'),
+  driver = SPE.Driver().getDriver(),
   PageElement = SPE.Pages.PageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
@@ -13,8 +14,7 @@ var SearchControls = PageElement.extend(function() {
   typeSearchParam: function(text) {
      var searchField = JxWaitUntil.elementExists(this.root, By.name('q'));
      JxActions.type(searchField, text);
-     var button = JxWaitUntil.elementExists(this.root, By.xpath(".//button[@aria-label='Google Search' and @name='btnG']"));
-     button.click();
+     searchField.sendKeys(driver.Key.ENTER);
      return SearchResults.findOnPage();
   }
 }).statics({
