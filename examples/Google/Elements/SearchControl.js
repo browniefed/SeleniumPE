@@ -3,9 +3,7 @@ var SPE = require('SeleniumPE'),
   PageElement = SPE.Pages.PageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
-  Sync = require('sync'),
   JxWaitUntil = SPE.JxWaitUntil,
-  klass = require('klass'),
   SearchResults = require('./SearchResults');
 
 var SearchControls = PageElement.extend(function() {
@@ -13,8 +11,7 @@ var SearchControls = PageElement.extend(function() {
 }).methods({
   typeSearchParam: function(text) {
      var searchField = JxWaitUntil.elementExists(this.root, By.name('q'));
-     JxActions.type(searchField, text);
-     searchField.sendKeys(driver.Key.ENTER);
+     JxActions.type(searchField, text, driver.Key.ENTER);
      return SearchResults.findOnPage();
   }
 }).statics({
