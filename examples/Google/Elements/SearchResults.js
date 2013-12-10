@@ -12,7 +12,8 @@ var SearchResults = PageElement.extend(function() {
 	getResultStatsByIndex: function(index) {
 		var el = new WebElement(this.root),
 		 	eles = JxInspector.findDescendants(this.root, By.css('h3 em'));
-		return eles[index].getInnerHtml();
+
+		return (index ? eles[index].getInnerHtml() : eles);
 	}
 }).statics({
 	findOnPage: function() {
