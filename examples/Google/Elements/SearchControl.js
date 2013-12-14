@@ -1,12 +1,12 @@
 var SPE = require('SeleniumPE'),
   driver = SPE.Driver().getDriver(),
-  PageElement = SPE.Pages.PageElement,
+  AbstractPageElement = SPE.Elements.AbstractPageElement,
   By = SPE.By._,
   JxActions = SPE.JxActions,
   JxWaitUntil = SPE.JxWaitUntil,
   SearchResults = require('./SearchResults');
 
-var SearchControls = PageElement.extend(function() {
+var SearchControls = AbstractPageElement.extend(function() {
 
 }).methods({
   typeSearchParam: function(text) {

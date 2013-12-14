@@ -1,12 +1,12 @@
 var SPE = require('SeleniumPE'),
-	PageElement = SPE.Pages.PageElement,
+	AbstractPageElement = SPE.Elements.AbstractPageElement,
 	WebElement = SPE.Elements.WebElement,
 	By = SPE.By._,
 	JxActions = SPE.JxActions,
 	JxWaitUntil = SPE.JxWaitUntil,
 	JxInspector = SPE.JxInspector;
 
-var SearchResults = PageElement.extend(function() {
+var SearchResults = AbstractPageElement.extend(function() {
 
 }).methods({
 	getResultStatsByIndex: function(index) {
