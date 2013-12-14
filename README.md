@@ -170,4 +170,4 @@ var SearchResults = PageElement.extend(function() {
 
 exports = module.exports = SearchResults;
 ```
-
+Cool stuff
