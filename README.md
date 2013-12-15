@@ -1,5 +1,8 @@
 #SeleniumPE
 
+This selenium uses Sync lib (Fibers/Futures) in the background to make webdriver synchronous.
+After building this I found out that webdriver-sync exists. The benefits to SeleniumPE are that you don't need Java and still get synchornous calls.
+
 Node Selenium Page Element.
 This style of writing Selenium tests is based on @seanadkinson and his coined "Page Element" style.
 
